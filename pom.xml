@@ -4,7 +4,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>at.ihet.samples</groupId>
-    <artifactId>microprofile-rest-client</artifactId>
+    <artifactId>microprofile-opentracing</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
@@ -41,6 +41,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.microprofile.opentracing</groupId>
+            <artifactId>microprofile-opentracing-api</artifactId>
+            <version>1.3.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.json.bind</groupId>
             <artifactId>javax.json.bind-api</artifactId>
             <version>1.0</version>
@@ -50,6 +56,12 @@
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
             <version>3.4.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-jaxrs2</artifactId>
+            <version>0.4.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -109,6 +121,14 @@
                 <dependency>
                     <groupId>io.thorntail</groupId>
                     <artifactId>microprofile-restclient</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>microprofile-opentracing</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>jaeger</artifactId>
                 </dependency>
             </dependencies>
             <build>
@@ -205,8 +225,16 @@
                 </plugins>
             </build>
         </profile>
+        <!-- Traces client but not server, I think because of opentracing-contrib-jaxrs2 -->
         <profile>
             <id>wildfly</id>
+            <dependencies>
+                <dependency>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                    <version>2.6</version>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -231,9 +259,10 @@
                             <startupTimeout>300</startupTimeout>
                             <timeout>60</timeout>
                             <serverType>STANDALONE</serverType>
-                            <env>
-                                <CONFIG_DIR>${project.basedir}\external-config</CONFIG_DIR>
-                            </env>
+                            <javaOpts>
+                                <javaOpt>-DJAEGER_SERVICE_NAME=test-service</javaOpt>
+                                <javaOpt>-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=y</javaOpt>
+                            </javaOpts>
                             <propertiesFile>${project.basedir}\wildfly.properties</propertiesFile>
                         </configuration>
                     </plugin>

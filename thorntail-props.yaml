@@ -5,7 +5,16 @@ thorntail:
       config-sources:
         configuration:
           properties:
-            rest.client/mp-rest/url: "http://httpbin.org"
-            rest.client/mp-rest/scope: "javax.enterprise.context.RequestScoped"
-            rest.client/mp-rest/connectTimeout: "2000"
-            rest.client/mp-rest/readTimeout: "2000"
+            externalResource/mp-rest/url: "http://httpbin.org"
+            externalResource/mp-rest/scope: "javax.enterprise.context.RequestScoped"
+            externalResource/mp-rest/connectTimeout: "2000"
+            externalResource/mp-rest/readTimeout: "2000"
+  # The jaeger tracing backend configurations
+  jaeger:
+    service-name: microprofile-opentracing-thorntail
+    agent-host: localhost
+    agent-port: 6831
+    reporter-log-spans: true
+    reporter-flush-interval: 2000
+    sampler-type: const
+    sampler-parameter: 1

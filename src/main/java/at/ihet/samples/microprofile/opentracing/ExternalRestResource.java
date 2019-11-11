@@ -1,6 +1,6 @@
-package at.ihet.samples.microprofile.rest.client;
+package at.ihet.samples.microprofile.opentracing;
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProviders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -10,15 +10,10 @@ import javax.ws.rs.core.MediaType;
 
 // Makes the rest client available via CDI and register a config key,
 // so we can avoid to use fully qualified class names as config key prefixes.
-@RegisterRestClient(configKey = "rest.client")
-// Register custom header handlers
-@RegisterClientHeaders(RestClientHeaderHandler.class)
-// Registers the exception handler as a provider
-@RegisterProviders({
-        @RegisterProvider(RestClientExceptionMapper.class),
-        @RegisterProvider(RestClientRequestFilter.class),
-        @RegisterProvider(RestClientResponseFilter.class)
-})
+@RegisterRestClient(configKey = "externalResource")
+// Unfortunately MicroProfile-Rest-Client doesn't integrate with MicroProfile-Opentracing yet
+// so we have to register the client tracer via an feature
+@RegisterProviders(@RegisterProvider(ClientTracingFeature.class))
 @Path("/")
 public interface ExternalRestResource {
 

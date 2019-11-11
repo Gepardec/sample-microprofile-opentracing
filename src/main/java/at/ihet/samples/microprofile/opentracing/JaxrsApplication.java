@@ -1,4 +1,4 @@
-package at.ihet.samples.microprofile.rest.client;
+package at.ihet.samples.microprofile.opentracing;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

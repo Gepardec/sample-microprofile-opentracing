@@ -1,4 +1,4 @@
-= Ample application MicroProfile Config
+= Sample application MicroProfile-Config
 
 This repository holds the sample application for illustrating the usage of MicroProfile-Rest-Client with Thorntail, Quarkus and Wildfly, and is part of an article you find at https://www.gepardec.com/blog/
 among other interesting articles.

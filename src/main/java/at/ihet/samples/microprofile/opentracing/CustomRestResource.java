@@ -8,8 +8,10 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -53,12 +55,12 @@ public class CustomRestResource {
         try {
             final ClientTracingFeature feature = createClientTracingFeature();
             return RestClientBuilder.newBuilder()
-                    .baseUri(new URI("http://httpbin.org"))
+                    .baseUrl(new URL("http://httpbin.org"))
                     .readTimeout(2000, TimeUnit.SECONDS)
                     .connectTimeout(2000, TimeUnit.SECONDS)
                     .register(feature)
                     .build(ExternalRestResource.class);
-        } catch (URISyntaxException e) {
+        } catch (MalformedURLException e) {
             throw new RuntimeException("URI is not valid");
         }
     }

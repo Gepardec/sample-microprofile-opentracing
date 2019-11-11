@@ -23,6 +23,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <version>1.0.2.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <version>2.0</version>
@@ -63,6 +69,17 @@
             <artifactId>opentracing-jaxrs2</artifactId>
             <version>0.4.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-tracerresolver</artifactId>
+            <version>0.1.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
         </dependency>
     </dependencies>
     <build>
@@ -225,18 +242,34 @@
                 </plugins>
             </build>
         </profile>
-        <!-- Traces client but not server, I think because of opentracing-contrib-jaxrs2 -->
         <profile>
             <id>wildfly</id>
             <dependencies>
+                <!-- Because use a custom TracerFactory -->
                 <dependency>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                    <version>2.6</version>
+                    <groupId>io.jaegertracing</groupId>
+                    <artifactId>jaeger-core</artifactId>
+                    <version>0.34.0</version>
+                    <scope>provided</scope>
                 </dependency>
             </dependencies>
             <build>
                 <plugins>
+                    <!--
+                         We need this because Thorntail can read jboss-deployment-structure.xml as well
+                         and the maven plugin will if present for Thorntail as well
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/wildfly</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
@@ -260,7 +293,6 @@
                             <timeout>60</timeout>
                             <serverType>STANDALONE</serverType>
                             <javaOpts>
-                                <javaOpt>-DJAEGER_SERVICE_NAME=test-service</javaOpt>
                                 <javaOpt>-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=y</javaOpt>
                             </javaOpts>
                             <propertiesFile>${project.basedir}\wildfly.properties</propertiesFile>

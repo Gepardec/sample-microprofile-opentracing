@@ -7,6 +7,8 @@ import org.apache.commons.io.IOUtils;
 import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientResponseContext;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +34,8 @@ public class ClientTracingDecorator implements ClientSpanDecorator {
         String body = "";
         if (responseContext.hasEntity()) {
             body = readEntityFromInputStream(responseContext.getEntityStream());
+            // We have read the stream, therefore we need to set it again
+            responseContext.setEntityStream(new BufferedInputStream(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8))));
         }
 
         span.setBaggageItem("response.body", body);

@@ -2,7 +2,7 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
-            <module name="io.smallrye.opentracing" />
+            <module name="io.jaegertracing.jaeger" />
             <module name="io.opentracing.contrib.opentracing-jaxrs2"/>
         </dependencies>
     </deployment>

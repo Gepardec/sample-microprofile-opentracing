@@ -15,6 +15,7 @@
         <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
@@ -65,6 +66,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-core</artifactId>
+            <version>0.34.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-jaxrs2</artifactId>
             <version>0.4.1</version>
@@ -82,6 +88,7 @@
             <version>2.6</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -101,12 +108,15 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>thorntail</id>
+
             <properties>
                 <version.thorntail>2.5.0.Final</version.thorntail>
             </properties>
+
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -118,6 +128,7 @@
                     </dependency>
                 </dependencies>
             </dependencyManagement>
+
             <dependencies>
                 <dependency>
                     <groupId>io.thorntail</groupId>
@@ -148,6 +159,7 @@
                     <artifactId>jaeger</artifactId>
                 </dependency>
             </dependencies>
+
             <build>
                 <plugins>
                     <plugin>
@@ -183,11 +195,14 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>quarkus</id>
+
             <properties>
                 <quarkus.version>1.0.0.CR1</quarkus.version>
             </properties>
+
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -199,6 +214,7 @@
                     </dependency>
                 </dependencies>
             </dependencyManagement>
+
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
@@ -220,7 +236,24 @@
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-rest-client</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-smallrye-opentracing</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-jaeger</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.opentracing.contrib</groupId>
+                    <artifactId>opentracing-jaxrs2</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.opentracing.contrib</groupId>
+                    <artifactId>opentracing-tracerresolver</artifactId>
+                </dependency>
             </dependencies>
+
             <build>
                 <plugins>
                     <plugin>
@@ -242,8 +275,16 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>wildfly</id>
+            
+            <properties>
+                <wildfly.dist.version>18.0.0.Final</wildfly.dist.version>
+                <wildfly-admin.password>admin</wildfly-admin.password>
+                <wildfly.admin.user>admin</wildfly.admin.user>
+            </properties>
+
             <dependencies>
                 <!-- Because use a custom TracerFactory -->
                 <dependency>
@@ -253,11 +294,12 @@
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
+
             <build>
                 <plugins>
                     <!--
                          We need this because Thorntail can read jboss-deployment-structure.xml as well
-                         and the maven plugin will if present for Thorntail as well
+                         and the thorntail-maven-plugin will fail if Thorntail sees jboss-deployment-structure.xml
                     -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -300,11 +342,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <wildfly.dist.version>18.0.0.Final</wildfly.dist.version>
-                <wildfly-admin.password>admin</wildfly-admin.password>
-                <wildfly.admin.user>admin</wildfly.admin.user>
-            </properties>
         </profile>
     </profiles>
 </project>

@@ -1,7 +1,6 @@
 package at.ihet.samples.microprofile.opentracing;
 
 import io.opentracing.Span;
-import io.opentracing.contrib.jaxrs2.client.ClientSpanDecorator;
 import org.apache.commons.io.IOUtils;
 
 import javax.json.bind.JsonbBuilder;
@@ -13,7 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-public class ClientTracingDecorator implements ClientSpanDecorator {
+public class ClientSpanDecorator implements io.opentracing.contrib.jaxrs2.client.ClientSpanDecorator {
 
     @Override
     public void decorateRequest(ClientRequestContext requestContext, Span span) {

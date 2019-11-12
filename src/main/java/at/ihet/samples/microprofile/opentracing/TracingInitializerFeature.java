@@ -13,7 +13,7 @@ import java.util.Collections;
 public class TracingInitializerFeature implements DynamicFeature {
 
     private static DynamicFeature tracingFeature = new ServerTracingDynamicFeature.Builder(GlobalTracer.get())
-            .withDecorators(Collections.singletonList(new ServerTracingDecorator()))
+            .withDecorators(Collections.singletonList(new ServerSpanDecorator()))
             .withSerializationDecorators(Collections.emptyList())
             .withTraceSerialization(false)
             .withJoinExistingActiveSpan(false)

@@ -30,21 +30,21 @@ and runs as a microservice with Thorntail, Quarkus and as a WAR deployment in Wi
    The Thorntail configuration file which defines the jaeger and rest client configuration properties
 * link:./wildfly.properties[``./wildfly.properties``] +
    The properties file which defines the jaeger and rest client configuration properties
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/ExternalRestResource.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/ExternalRestResource.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/ExternalRestResource.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/ExternalRestResource.java``] +
    The type safe rest client interface for the external rest resources
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/RestResource.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/RestResource.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/RestResource.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/RestResource.java``] +
    The rest resource which uses the injectable ExternalResource instance which uses the ClientTracingFeature without modifications
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/CustomRestResource.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/CustomRestResource.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/CustomRestResource.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/CustomRestResource.java``] +
    The rest resource which builds the ExternalResource instance via the builder and which uses a custom built ClientTracingFeature which uses the ClientSpanDecorator
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/ClientSpanDecorator.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/ClientSpanDecorator.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/ClientSpanDecorator.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/ClientSpanDecorator.java``] +
    The client side span decorator which adds additional information on the span
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/ServerSpanDecorator.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/ServerSpanDecorator.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/ServerSpanDecorator.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/ServerSpanDecorator.java``] +
    The server side span decorator which adds additional information on the span
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/TracerFactory.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/TracerFactory.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/TracerFactory.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/TracerFactory.java``] +
    The tracer factory which creates the tracer and registers it on the GlobalTracer
 * link:./src/main/resources/services/io.opentracing.contrib.tracerresolver.TracerFactory[``./src/main/resources/io.opentracing.contrib.tracerresolver.TracerFactory``] +
    The file discovered by SPI which registers the TracerFactory
-* link:./src/main/java/at/ihet/samples/microprofile/opentracing/TracingInitializerFeature.java[``./src/main/java/at/ihet/samples/microprofile/opentracing/TracingInitializerFeature.java``] +
+* link:./src/main/java/com/gepardec/samples/microprofile/opentracing/TracingInitializerFeature.java[``./src/main/java/com/gepardec/samples/microprofile/opentracing/TracingInitializerFeature.java``] +
    The JAX-RS dynamic feature which uses the ServerSpanDecorator
 * link:./pom.xml[``./pom.xml``] +
    The ``pom.xml`` defining the Thorntail, Quarkus and Wildfly configurations separated by profiles

@@ -1,4 +1,4 @@
-package at.ihet.samples.microprofile.opentracing;
+package com.gepardec.samples.microprofile.opentracing;
 
 import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.rest.client.inject.RestClient;

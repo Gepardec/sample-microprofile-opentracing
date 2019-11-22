@@ -176,7 +176,6 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <debugPort>5005</debugPort>
                             <arguments>
                                 <argument>-s</argument>
                                 <argument>${project.basedir}\thorntail-props.yaml</argument>
